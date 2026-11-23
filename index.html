@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convite de Casamento — Eric & Marta</title>
+<style>
+  :root {
+    --cream: #fffdf9;
+    --lilac: #a58ac3;
+    --lilac-light: #e8def0;
+    --gold: #b99a59;
+    --ink: #21172a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 16px 42px;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background: linear-gradient(135deg, #f5eff8, #fffdf9 55%, #f2eaf5);
+  }
+  .page { max-width: 980px; margin: auto; }
+  header { text-align: center; margin: 0 auto 22px; font-family: Arial, sans-serif; }
+  header h1 { margin: 0 0 8px; font-size: clamp(23px, 4vw, 32px); color: #59436d; }
+  header p { margin: 0; color: #6f6475; font-size: 14px; }
+  .workspace {
+    display: grid; grid-template-columns: minmax(260px, 330px) minmax(300px, 1fr);
+    gap: 26px; align-items: start;
+  }
+  .panel {
+    background: rgba(255,255,255,.88); border: 1px solid #e8deed;
+    border-radius: 18px; padding: 22px; box-shadow: 0 12px 35px #38204412;
+    font-family: Arial, sans-serif;
+  }
+  .panel h2 { margin: 0 0 18px; color: #5d4770; font-size: 18px; }
+  label { display:block; font-size: 13px; font-weight: 700; margin: 14px 0 7px; color:#51475a; }
+  input, textarea {
+    width:100%; border:1px solid #d9cde2; border-radius:10px; padding:11px 12px;
+    font: 15px Arial, sans-serif; color:#33283b; background:#fff; outline:none;
+  }
+  input:focus, textarea:focus { border-color:var(--lilac); box-shadow:0 0 0 3px #a58ac322; }
+  textarea { min-height:95px; resize:vertical; line-height:1.45; }
+  .hint { color:#83788a; font-size:12px; line-height:1.45; margin:7px 0 0; }
+  .actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:19px; }
+  button {
+    border:0; border-radius:10px; padding:12px 15px; cursor:pointer;
+    font:700 13px Arial,sans-serif; transition:transform .15s, opacity .15s;
+  }
+  button:hover { transform:translateY(-1px); }
+  .primary { background:#75578e; color:#fff; flex:1; }
+  .secondary { background:#eee6f3; color:#5c4770; }
+  .preview-wrap { display:flex; justify-content:center; }
+  .invitation {
+    width:min(100%, 520px); aspect-ratio: 4 / 5; position:relative; overflow:hidden;
+    background:var(--cream); border:1px solid #eee6dc;
+    box-shadow:0 18px 48px #34203c20; padding:9% 8%;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+  }
+  .invitation:before, .invitation:after {
+    content:""; position:absolute; width:34%; height:22%;
+    border:1.5px solid #c8add9; opacity:.9; pointer-events:none;
+  }
+  .invitation:before { top:-7%; left:-9%; border-radius:0 0 90% 0; border-top:0; border-left:0; transform:rotate(-8deg); }
+  .invitation:after { bottom:-7%; right:-9%; border-radius:90% 0 0 0; border-bottom:0; border-right:0; transform:rotate(-8deg); }
+  .sprig { position:absolute; color:#aa91c0; font-size:clamp(48px, 9vw, 78px); line-height:1; opacity:.78; }
+  .sprig.top { top:2%; right:2%; transform:rotate(25deg); }
+  .sprig.bottom { bottom:2%; left:2%; transform:rotate(205deg); }
+  .ornament { color:var(--gold); font-size:18px; letter-spacing:8px; margin:2% 0 5%; }
+  .eyebrow { color:#8c72a4; font:600 clamp(9px, 1.7vw, 12px) Arial,sans-serif; letter-spacing:3px; text-transform:uppercase; }
+  .names { font-size:clamp(30px, 7vw, 55px); line-height:1.05; letter-spacing:1px; margin:5% 0 1%; color:#201629; }
+  .amp { font-style:italic; color:var(--gold); font-size:clamp(17px, 3vw, 23px); margin:0 0 2%; }
+  .rule { width:58%; height:1px; background:linear-gradient(90deg, transparent, #a58ac3, transparent); }
+  .invite-text {
+    max-width:88%; margin:8% auto 5%; color:#51475a;
+    font-size:clamp(12px, 2vw, 16px); line-height:1.65;
+  }
+  .guest { color:#70558b; font-size:clamp(16px, 2.8vw, 21px); font-style:italic; margin:0 0 2%; }
+  .date { color:#9276ad; font:500 clamp(17px, 3.2vw, 24px) Arial,sans-serif; letter-spacing:3px; margin:2% 0 1%; }
+  .time { color:#6e5b78; font:13px Arial,sans-serif; letter-spacing:2px; margin:1% 0 5%; }
+  .venue { color:#302638; font-size:clamp(13px, 2vw, 17px); font-weight:bold; margin:1% 0; }
+  .address-label { color:#8b7c91; font:10px Arial,sans-serif; letter-spacing:2px; margin-top:2%; }
+  .closing { color:#8b719e; font-style:italic; font-size:clamp(11px, 1.8vw, 14px); margin-top:auto; padding-top:5%; }
+  .gold-line { width:28%; height:1px; background:var(--gold); margin:4% 0 2%; }
+  @media(max-width:760px) {
+    .workspace { grid-template-columns:1fr; }
+    .panel { order:1; }
+    .preview-wrap { order:0; }
+    .invitation { width:min(100%, 460px); }
+  }
+  @media print {
+    body { background:#fff; padding:0; }
+    header,.panel { display:none; }
+    .workspace { display:block; }
+    .invitation { width:100vw; max-width:none; height:125vw; box-shadow:none; border:0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Convite de Casamento</h1>
+    <p>Personalize o nome do convidado e baixe o convite como imagem.</p>
+  </header>
+
+  <main class="workspace">
+    <section class="panel" aria-label="Personalização do convite">
+      <h2>Personalize seu convite</h2>
+      <label for="guestName">Nome de quem será convidado</label>
+      <input id="guestName" type="text" placeholder="Ex.: Família Silva" value="Convidado(a) especial">
+      <label for="message">Mensagem do convite</label>
+      <textarea id="message">Com imensa alegria, convidamos você para celebrar conosco o nosso casamento. Será uma honra compartilhar este momento tão especial ao seu lado.</textarea>
+      <p class="hint">A data, o horário e a igreja já estão definidos. Você pode alterar o nome e a mensagem para cada pessoa ou família.</p>
+      <div class="actions">
+        <button class="primary" id="downloadBtn" type="button">Baixar convite em PNG</button>
+        <button class="secondary" id="printBtn" type="button">Imprimir</button>
+      </div>
+      <p class="hint" id="status" aria-live="polite">A imagem será gerada em alta resolução, pronta para compartilhar pelo WhatsApp.</p>
+    </section>
+
+    <div class="preview-wrap">
+      <article class="invitation" id="invitation" aria-label="Prévia do convite">
+        <div class="sprig top" aria-hidden="true">❧</div>
+        <div class="sprig bottom" aria-hidden="true">❧</div>
+        <div class="ornament">✧ &nbsp; ✦ &nbsp; ✧</div>
+        <div class="eyebrow">Com a bênção de Deus</div>
+        <div class="names">ERIC</div>
+        <div class="amp">&</div>
+        <div class="rule"></div>
+        <div class="names" style="margin-top:2%">MARTA</div>
+        <p class="invite-text" id="previewMessage"></p>
+        <div class="guest" id="previewGuest"></div>
+        <div class="date">01 · 05 · 27</div>
+        <div class="time">ÀS 17 HORAS</div>
+        <div class="gold-line"></div>
+        <div class="address-label">LOCAL DA CERIMÔNIA</div>
+        <div class="venue">Igreja Batista Shekinah</div>
+        <div class="closing">Sua presença tornará este dia ainda mais especial.</div>
+      </article>
+    </div>
+  </main>
+</div>
+
+<script>
+  const guestInput = document.getElementById('guestName');
+  const messageInput = document.getElementById('message');
+  const previewGuest = document.getElementById('previewGuest');
+  const previewMessage = document.getElementById('previewMessage');
+  const status = document.getElementById('status');
+
+  function updatePreview() {
+    const guest = guestInput.value.trim();
+    previewGuest.textContent = guest ? `A ${guest}` : 'A você, nosso(a) querido(a) convidado(a)';
+    previewMessage.textContent = messageInput.value.trim();
+  }
+  guestInput.addEventListener('input', updatePreview);
+  messageInput.addEventListener('input', updatePreview);
+  updatePreview();
+
+  // Desenha o convite diretamente em canvas para gerar PNG sem bibliotecas externas.
+  function roundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines=5) {
+    const words = text.split(/\s+/);
+    let line = '', lines = [];
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line); line = word;
+      } else line = test;
+    }
+    if (line) lines.push(line);
+    lines = lines.slice(0, maxLines);
+    lines.forEach((item, i) => ctx.fillText(item, x, y + i*lineHeight));
+    return lines.length;
+  }
+  function drawInvitation() {
+    const W=1200, H=1500, canvas=document.createElement('canvas');
+    canvas.width=W; canvas.height=H;
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle='#fffdf9'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#c8add9'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(0,170); ctx.bezierCurveTo(180,60,360,150,340,0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(1200,1320); ctx.bezierCurveTo(1020,1450,1110,1370,900,1500); ctx.stroke();
+    ctx.fillStyle='#aa91c0'; ctx.globalAlpha=.78;
+    ctx.font='150px Georgia'; ctx.fillText('❧',930,190); ctx.save(); ctx.translate(250,1320); ctx.rotate(Math.PI); ctx.fillText('❧',0,0); ctx.restore(); ctx.globalAlpha=1;
+    ctx.textAlign='center';
+    ctx.fillStyle='#b99a59'; ctx.font='34px Georgia'; ctx.fillText('✧     ✦     ✧',600,245);
+    ctx.fillStyle='#8c72a4'; ctx.font='bold 24px Arial'; ctx.fillText('C O M   A   B Ê N Ç Ã O   D E   D E U S',600,310);
+    ctx.fillStyle='#201629'; ctx.font='120px Georgia'; ctx.fillText('ERIC',600,475);
+    ctx.fillStyle='#b99a59'; ctx.font='italic 48px Georgia'; ctx.fillText('&',600,540);
+    const grad=ctx.createLinearGradient(280,0,920,0); grad.addColorStop(0,'#fffdf9'); grad.addColorStop(.5,'#a58ac3'); grad.addColorStop(1,'#fffdf9');
+    ctx.fillStyle=grad; ctx.fillRect(280,570,640,2);
+    ctx.fillStyle='#201629'; ctx.font='120px Georgia'; ctx.fillText('MARTA',600,715);
+    ctx.fillStyle='#51475a'; ctx.font='30px Georgia';
+    const message=messageInput.value.trim();
+    const lines=wrapText(ctx,message,600,825,850,48,4);
+    const guest=guestInput.value.trim();
+    ctx.fillStyle='#70558b'; ctx.font='italic 36px Georgia';
+    ctx.fillText(guest ? `A ${guest}` : 'A você, nosso(a) querido(a) convidado(a)',600,825+lines*48+42);
+    ctx.fillStyle='#9276ad'; ctx.font='48px Arial'; ctx.fillText('01  ·  05  ·  27',600,1130);
+    ctx.fillStyle='#6e5b78'; ctx.font='28px Arial'; ctx.fillText('ÀS 17 HORAS',600,1190);
+    ctx.fillStyle='#b99a59'; ctx.fillRect(510,1230,180,2);
+    ctx.fillStyle='#8b7c91'; ctx.font='20px Arial'; ctx.fillText('LOCAL DA CERIMÔNIA',600,1280);
+    ctx.fillStyle='#302638'; ctx.font='bold 34px Georgia'; ctx.fillText('Igreja Batista Shekinah',600,1330);
+    ctx.fillStyle='#8b719e'; ctx.font='italic 25px Georgia'; ctx.fillText('Sua presença tornará este dia ainda mais especial.',600,1410);
+    return canvas;
+  }
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    updatePreview();
+    const canvas=drawInvitation();
+    const link=document.createElement('a');
+    const safeName=(guestInput.value.trim() || 'convidado').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_');
+    link.download=`convite-casamento-eric-marta-${safeName}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    status.textContent='Convite gerado! Se o download não iniciar, permita downloads no navegador e tente novamente.';
+  });
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
